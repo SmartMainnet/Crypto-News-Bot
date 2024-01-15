@@ -1,5 +1,5 @@
 import { getSubscriptions, unsubscribeAll } from '../../database/methods/subscriptions.js'
-import { subscriptionsInlineKeyboard, subscribeTagsInlineKeyboard } from '../../keyboards/inline_keyboard/index.js'
+import { subscriptionsInlineKeyboard, editSubscriptionsInlineKeyboard } from '../../keyboards/inline_keyboard/index.js'
 import { ContextType } from '../../types/index.js'
 
 export const subscriptionsCallback = async (ctx: ContextType) => {
@@ -10,13 +10,13 @@ export const subscriptionsCallback = async (ctx: ContextType) => {
     const user = callback.from!
 
     if (data === 'editSubscriptions') {
-      await ctx.editMessageText(ctx.t('editSubscriptions'), { reply_markup: await subscribeTagsInlineKeyboard(user.id) })
+      await ctx.editMessageText(ctx.t('editSubscriptions'), { reply_markup: await editSubscriptionsInlineKeyboard(user.id) })
     }
 
     if (data === 'unsubscribeAll') {
       await unsubscribeAll(user.id)
 
-      await ctx.editMessageReplyMarkup({ reply_markup: await subscribeTagsInlineKeyboard(user.id) })
+      await ctx.editMessageReplyMarkup({ reply_markup: await editSubscriptionsInlineKeyboard(user.id) })
     }
 
     if (data === 'backToSubscriptions') {
@@ -25,7 +25,10 @@ export const subscriptionsCallback = async (ctx: ContextType) => {
       
       await ctx.editMessageText(
         ctx.t('mysubscriptions', { subscriptions: subscriptionsString }),
-        { reply_markup: subscriptionsInlineKeyboard() }
+        {
+          parse_mode: 'Markdown',
+          reply_markup: subscriptionsInlineKeyboard()
+        }
       )
     }
   } catch (e) {

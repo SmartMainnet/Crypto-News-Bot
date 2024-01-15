@@ -11,7 +11,10 @@ export const mysubscriptionsCommand = async (ctx: ContextType) => {
     
     await ctx.reply(
       ctx.t('mysubscriptions', { subscriptions: subscriptionsString }),
-      { reply_markup: subscriptionsInlineKeyboard() }
+      {
+        parse_mode: 'Markdown',
+        reply_markup: subscriptionsInlineKeyboard()
+      }
     )
   } catch (e) {
     console.log(e)

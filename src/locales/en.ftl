@@ -31,7 +31,7 @@ successfully_unsubscribed =
 already_unsubscribed =
   ❌ Вы не подписаны на "{ $data }"
 mysubscriptions =
-  Мои подписки:
+  ➡️ *Мои подписки*
   { $subscriptions }
 only_members =
   To use the Bot, you must be a Member from [Smart Bots](https://t.me/{ $CHANNEL })
