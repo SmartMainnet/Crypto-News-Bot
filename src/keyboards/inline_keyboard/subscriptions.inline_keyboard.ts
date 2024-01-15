@@ -4,6 +4,6 @@ export const subscriptionsInlineKeyboard = () => {
   return new InlineKeyboard()
     .text(
       'Редактировать',
-      'subscribe'
+      'editSubscriptions'
     )
 }

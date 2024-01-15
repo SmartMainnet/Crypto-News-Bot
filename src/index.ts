@@ -32,6 +32,6 @@ bot.command('help', helpCommand)
 // callbacks
 bot.callbackQuery(tagKeys.map(e => `subscribe ${e}`), subscribeCallback)
 bot.callbackQuery(tagKeys.map(e => `unsubscribe ${e}`), unsubscribeCallback)
-bot.callbackQuery(['subscribe', 'unsubscribeAll', 'backToSubscriptions'], subscriptionsCallback)
+bot.callbackQuery(['editSubscriptions', 'unsubscribeAll', 'backToSubscriptions'], subscriptionsCallback)
 
 bot.start()

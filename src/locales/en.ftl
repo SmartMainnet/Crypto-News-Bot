@@ -16,10 +16,8 @@ help =
   сферы криптовалют и web3
 
   /mysubscriptions - Мои подписки
-subscribe =
+editSubscriptions =
   Выберите интересующие вас категории:
-unsubscribe =
-  Выберите категории от которых хотите отписаться:
 subscribeAll =
   ✅ Вы подписались на все категории!
 unsubscribeAll =

@@ -9,8 +9,8 @@ export const subscriptionsCallback = async (ctx: ContextType) => {
     const data = callback.data!
     const user = callback.from!
 
-    if (data === 'subscribe') {
-      await ctx.editMessageText(ctx.t('subscribe'), { reply_markup: await subscribeTagsInlineKeyboard(user.id) })
+    if (data === 'editSubscriptions') {
+      await ctx.editMessageText(ctx.t('editSubscriptions'), { reply_markup: await subscribeTagsInlineKeyboard(user.id) })
     }
 
     if (data === 'unsubscribeAll') {
