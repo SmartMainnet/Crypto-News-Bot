@@ -1,0 +1,31 @@
+{
+  "name": "crypto-news-bot",
+  "version": "1.0.0",
+  "main": "build/index.js",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "start": "tsc && node build/index.js",
+    "dev": "nodemon src/index.ts",
+    "monitors:news": "nodemon src/monitors/news.monitor.ts"
+  },
+  "author": "SmartMainnet",
+  "license": "MIT",
+  "dependencies": {
+    "@grammyjs/i18n": "^1.0.1",
+    "@grammyjs/ratelimiter": "^1.2.0",
+    "axios": "^1.6.1",
+    "chalk": "^5.3.0",
+    "dotenv": "^16.3.1",
+    "grammy": "^1.19.2",
+    "lodash": "^4.17.21",
+    "mongoose": "^8.0.0",
+    "nanoid": "^5.0.4",
+    "winston": "^3.11.0"
+  },
+  "devDependencies": {
+    "@types/lodash": "^4.14.202",
+    "nodemon": "^3.0.1",
+    "typescript": "^5.2.2"
+  }
+}
