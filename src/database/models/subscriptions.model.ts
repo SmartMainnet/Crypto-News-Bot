@@ -9,7 +9,12 @@ const Subscriptions = new Schema({
   },
   tags: [{
     key: {
-      type: String
+      type: String,
+      required: true
+    },
+    name: {
+      type: String,
+      required: true
     },
     date: {
       type: Date,
