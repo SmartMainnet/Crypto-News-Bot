@@ -13,11 +13,15 @@ const Tags = new Schema({
   name: {
     type: String,
     required: true
+  },
+  subscriptions: {
+    type: Number,
+    default: 0
   }
 }, {
   timestamps: {
     createdAt: 'created_at',
-    updatedAt: false,
+    updatedAt: 'updated_at',
   }
 })
 
