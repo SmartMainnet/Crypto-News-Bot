@@ -1,4 +1,5 @@
 export * from './user.model.js'
+export * from './tags.model.js'
 export * from './logs.model.js'
 export * from './сounter.model.js'
 export * from './lastNews.model.js'

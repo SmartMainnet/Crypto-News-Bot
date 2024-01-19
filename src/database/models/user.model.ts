@@ -2,7 +2,7 @@ import mongoose from 'mongoose'
 
 import { getNextSequence } from '../utils/index.js'
 
-const Schema = mongoose.Schema
+const { Schema } = mongoose
 
 const Users = new Schema({
   id: Number,
@@ -22,7 +22,7 @@ const Users = new Schema({
 }, {
   timestamps: {
     createdAt: 'created_at',
-    updatedAt: false,
+    updatedAt: 'updated_at',
   }
 })
 
@@ -31,7 +31,7 @@ Users.index({ user_id: 1 }, { unique: true })
 
 Users.pre('save', async function(next) {
   if (this.isNew) {
-    this.id = await getNextSequence('user')
+    this.id = await getNextSequence('users')
   }
   next()
 })

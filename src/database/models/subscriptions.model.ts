@@ -21,6 +21,11 @@ const Subscriptions = new Schema({
       default: Date.now
     }
   }]
+}, {
+  timestamps: {
+    createdAt: 'created_at',
+    updatedAt: 'updated_at',
+  }
 })
 
 Subscriptions.index({ user_id: 1 }, { unique: true })
