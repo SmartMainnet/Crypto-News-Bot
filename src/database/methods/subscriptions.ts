@@ -1,6 +1,6 @@
 import { SubscriptionsModel } from '../models/index.js'
 
-export const newSubscribe = async (user_id: number, tag: string) => {
+export const newSubscribe = async (user_id: number, key: string) => {
   try {
     let subscriptions = await SubscriptionsModel.findOne({ user_id })
 
@@ -11,7 +11,7 @@ export const newSubscribe = async (user_id: number, tag: string) => {
       })
     }
   
-    const checkTag = subscriptions.tags.some(e => e.key === tag)
+    const checkTag = subscriptions.tags.some(e => e.key === key)
   
     if (checkTag) {
       return 'already subscribed'
@@ -21,12 +21,12 @@ export const newSubscribe = async (user_id: number, tag: string) => {
         {
           $push: {
             tags: {
-              key: tag
+              key
             }
           }
         }
       )
-  
+
       return 'successfully subscribed'
     }
   } catch (e) {
@@ -34,7 +34,7 @@ export const newSubscribe = async (user_id: number, tag: string) => {
   }
 }
 
-export const newUnsubscribe = async (user_id: number, tag: string) => {
+export const newUnsubscribe = async (user_id: number, key: string) => {
   try {
     let subscriptions = await SubscriptionsModel.findOne({ user_id })
 
@@ -45,7 +45,7 @@ export const newUnsubscribe = async (user_id: number, tag: string) => {
       })
     }
   
-    const checkTag = subscriptions.tags.some(e => e.key === tag)
+    const checkTag = subscriptions.tags.some(e => e.key === key)
   
     if (!checkTag) {
       return 'already unsubscribed'
@@ -55,12 +55,12 @@ export const newUnsubscribe = async (user_id: number, tag: string) => {
         {
           $pull: {
             tags: {
-              key: tag
+              key
             }
           }
         }
       )
-  
+
       return 'successfully unsubscribed'
     }
   } catch (e) {

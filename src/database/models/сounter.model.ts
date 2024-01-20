@@ -4,11 +4,9 @@ const { Schema } = mongoose
 
 const Counter = new Schema({
   _id: String,
-  seq: { type: Number, default: 0 },
-}, {
-  timestamps: {
-    createdAt: false,
-    updatedAt: 'updated_at',
+  seq: {
+    type: Number,
+    default: 0
   }
 })
 

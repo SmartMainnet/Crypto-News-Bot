@@ -1,11 +1,11 @@
 import { Context, Api } from 'grammy'
 import { I18nFlavor } from '@grammyjs/i18n'
 
-export interface IChain {
-  id: number,
+export interface ITag {
+  id?: number,
+  key: string,
   name: string,
-  coin: string,
-  scan: string
+  news_count?: number
 }
 
 interface Config {

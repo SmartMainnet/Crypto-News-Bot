@@ -10,13 +10,18 @@ export const subscriptionsCallback = async (ctx: ContextType) => {
     const user = callback.from!
 
     if (data === 'editSubscriptions') {
-      await ctx.editMessageText(ctx.t('editSubscriptions'), { reply_markup: await editSubscriptionsInlineKeyboard(user.id) })
+      const keyboard = await editSubscriptionsInlineKeyboard(user.id)
+      await ctx.editMessageText(ctx.t('editSubscriptions'), { reply_markup: keyboard })
     }
 
     if (data === 'unsubscribeAll') {
       await unsubscribeAll(user.id)
 
       await ctx.editMessageReplyMarkup({ reply_markup: await editSubscriptionsInlineKeyboard(user.id) })
+    }
+
+    if (data === 'disabledButton') {
+      await ctx.answerCallbackQuery('Вы нажали на неактивную кнопку!')
     }
 
     if (data === 'backToSubscriptions') {

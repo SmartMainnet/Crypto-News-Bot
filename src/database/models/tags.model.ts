@@ -14,7 +14,7 @@ const Tags = new Schema({
     type: String,
     required: true
   },
-  subscriptions: {
+  news_count: {
     type: Number,
     default: 0
   }

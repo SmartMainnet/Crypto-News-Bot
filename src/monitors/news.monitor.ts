@@ -4,9 +4,10 @@ import { Bot } from 'grammy'
 
 import { log } from "../utils/index.js"
 import { connectMongoose } from "../database/connect/index.js"
-import { ContextType } from "../types/index.js"
-import { SubscriptionsModel } from '../database/models/subscriptions.model.js'
-import { LastNewsModel } from '../database/models/lastNews.model.js'
+import { ContextType, ITag } from "../types/index.js"
+import { LastNewsModel, SubscriptionsModel } from '../database/models/index.js'
+import { getTagsByKeys, incrementTagNewsCount, newTags } from '../database/methods/index.js'
+import { postInlineKeyboard } from '../keyboards/inline_keyboard/post.inline_keyboard.js'
 
 const { BOT_TOKEN, CHAT_ID } = process.env
 
@@ -43,34 +44,46 @@ const checkNews = async () => {
     })
 
     const news = res.data.data[0]
-    const tags = news.tags.map((obj: any) => `#${obj.key}`).filter((tag: any) => !tag.includes('-')).join(' ')
+    const hashtags = news.tags.map((tag: ITag) => `#${tag.key.replace('-', '')}`).join(' ')
 
     if (news.title !== lastNews.last_news.title) {
+      log.info('New news')
       await LastNewsModel.findByIdAndUpdate('65a2d14f3cf0415406c6ce61', {
         last_news: news
       })
       lastNews = await LastNewsModel.findById('65a2d14f3cf0415406c6ce61')
 
-      const description = shorten(news.description, 1024 - createPost(news, tags, '').length, '\n').replace(/\n+/g, '\n\n')
-      const content = createPost(news, tags, description)
+      const description = shorten(news.description, 1024 - createPost(news, hashtags, '').length, '\n').replace(/\n+/g, '\n\n')
+      const content = createPost(news, hashtags, description)
 
       const users = await SubscriptionsModel.find({
         "tags": {
           $elemMatch: {
             "key": {
-              $in: news.tags.map((obj: any) => `${obj.key}`).filter((tag: any) => !tag.includes('-')).join(' ')
+              $in: news.tags.map((tag: ITag) => tag.key).filter((key: string) => !key.includes('-')).join(' ')
             }
           }
         }
       })
 
-      await bot.api.sendPhoto(CHAT_ID!, news.imageUrl, { parse_mode: 'Markdown', caption: content })
+      await newTags(news.tags)
+      await incrementTagNewsCount(news.tags.map((tag: ITag) => tag.key))
+
+      const tags = await getTagsByKeys(news.tags.map((tag: ITag) => tag.key))
+
+      await bot.api.sendPhoto(CHAT_ID!, news.imageUrl, {
+        parse_mode: 'Markdown',
+        caption: content,
+        reply_markup: postInlineKeyboard(tags)
+      })
+      log.info('News sent to the channel')
 
       if (users.length) {
         for (const user of users) {
           await bot.api.sendPhoto(user.user_id, news.imageUrl, { parse_mode: 'Markdown', caption: content })
         }
       }
+      log.info(`News sent to ${users.length} users`)
     }
   } catch (err) {
     console.error(err)
@@ -78,10 +91,8 @@ const checkNews = async () => {
 }
 
 const run = async () => {
-  log.info('News worker started')
+  // log.info('News worker started')
   await checkNews()
-  // sleep for 5 second
-  await new Promise((resolve) => setTimeout(resolve, 5000))
 }
 
 void (async () => {
@@ -89,9 +100,7 @@ void (async () => {
 
   lastNews = await LastNewsModel.findById('65a2d14f3cf0415406c6ce61')
 
-  while (true) {
-    await run()
-  }
+  setInterval(run, 5000)
 })()
 
 // shutdown

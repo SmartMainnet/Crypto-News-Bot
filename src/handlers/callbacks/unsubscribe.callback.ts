@@ -1,5 +1,5 @@
 import { newUnsubscribe } from '../../database/methods/subscriptions.js'
-import { editSubscriptionsInlineKeyboard } from '../../keyboards/inline_keyboard/tags.inline_keyboard.js'
+import { editSubscriptionsInlineKeyboard } from '../../keyboards/inline_keyboard/editSubscriptions.inline_keyboard.js'
 import { ContextType } from '../../types/index.js'
 
 export const unsubscribeCallback = async (ctx: ContextType) => {
@@ -7,6 +7,7 @@ export const unsubscribeCallback = async (ctx: ContextType) => {
     const callback = ctx.update.callback_query!
 
     const data = callback.data!.split(' ')[1]
+    console.log('data: ', data)
     const user = callback.from!
 
     await newUnsubscribe(user.id, data)

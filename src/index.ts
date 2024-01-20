@@ -6,9 +6,8 @@ import { i18nMiddleware, limitMiddleware } from './middlewares/plugins/index.js'
 // import { checkMember } from './middlewares/checks/index.js'
 import { helpCommand, infoCommand, mysubscriptionsCommand, startCommand } from './handlers/commands/index.js'
 // import { textMessage } from './handlers/messages/index.js'
-import { subscribeCallback, subscriptionsCallback, unsubscribeCallback } from './handlers/callbacks/index.js'
+import { paginationCallback, subscribeCallback, subscriptionsCallback, unsubscribeCallback } from './handlers/callbacks/index.js'
 import { ContextType } from './types/index.js'
-import { tagKeys } from './utils/tags.js'
 
 await connectMongoose()
 
@@ -36,8 +35,9 @@ bot.command('help', helpCommand)
 // bot.hears(/.*/, textMessage)
 
 // callbacks
-bot.callbackQuery(tagKeys.map(e => `subscribe ${e}`), subscribeCallback)
-bot.callbackQuery(tagKeys.map(e => `unsubscribe ${e}`), unsubscribeCallback)
-bot.callbackQuery(['editSubscriptions', 'unsubscribeAll', 'backToSubscriptions'], subscriptionsCallback)
+bot.callbackQuery(/subscribe .+/, subscribeCallback)
+bot.callbackQuery(/unsubscribe .+/, unsubscribeCallback)
+bot.callbackQuery(/subscriptionsPage [0-9]+/, paginationCallback)
+bot.callbackQuery(['editSubscriptions', 'unsubscribeAll', 'disabledButton', 'backToSubscriptions'], subscriptionsCallback)
 
 bot.start()
