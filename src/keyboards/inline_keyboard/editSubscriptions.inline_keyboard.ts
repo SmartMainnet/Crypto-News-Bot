@@ -17,7 +17,7 @@ export const editSubscriptionsInlineKeyboard = async (user_id: number, page = 0)
     page === tags.max_page - 1 ? InlineKeyboard.text(`${page + 1} / ${tags.max_page}`, 'disabledButton') : InlineKeyboard.text('>', `subscriptionsPage ${tags.page + 1}`)
   ]
   const unsubscribeAllButton = filteredButtonRow.every(subArray => subArray.length === 0) ? [] : [InlineKeyboard.text('Отписаться от всего', 'unsubscribeAll')]
-  const backButton = [InlineKeyboard.text('« Назад', 'backToSubscriptions')]
+  const backButton = [InlineKeyboard.text('« Назад', 'backToProfile')]
   
   return InlineKeyboard.from([...filteredButtonRow, paginationButtonRow, unsubscribeAllButton, backButton])
 }

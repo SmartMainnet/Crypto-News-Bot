@@ -2,19 +2,19 @@ import 'dotenv/config'
 import axios from 'axios'
 import { Bot } from 'grammy'
 
-import { log } from "../utils/index.js"
-import { connectMongoose } from "../database/connect/index.js"
-import { ContextType, ITag } from "../types/index.js"
+import { log } from '../utils/index.js'
+import { connectMongoose } from '../database/connect/index.js'
+import { ContextType, ITag } from '../types/index.js'
 import { LastNewsModel, SubscriptionsModel } from '../database/models/index.js'
 import { getTagsByKeys, incrementTagNewsCount, newTags } from '../database/methods/index.js'
 import { postInlineKeyboard } from '../keyboards/inline_keyboard/post.inline_keyboard.js'
 
-const { BOT_TOKEN, CHAT_ID } = process.env
+const { BOT_TOKEN, CHAT_ID, API } = process.env
 
 const bot = new Bot<ContextType>(BOT_TOKEN!)
 
 const cryptoNews = axios.create({
-  baseURL: 'https://api.cryptorank.io/v0',
+  baseURL: API,
 })
 
 let lastNews: any = {}
@@ -57,9 +57,9 @@ const checkNews = async () => {
       const content = createPost(news, hashtags, description)
 
       const users = await SubscriptionsModel.find({
-        "tags": {
+        'tags': {
           $elemMatch: {
-            "key": {
+            'key': {
               $in: news.tags.map((tag: ITag) => tag.key).filter((key: string) => !key.includes('-')).join(' ')
             }
           }

@@ -8,11 +8,11 @@ const Subscriptions = new Schema({
     required: true
   },
   tags: [{
-    key: {
+    name: {
       type: String,
       required: true
     },
-    name: {
+    key: {
       type: String,
       required: true
     },
@@ -20,7 +20,25 @@ const Subscriptions = new Schema({
       type: Date,
       default: Date.now
     }
-  }]
+  }],
+  blocked_sources: [{
+    name: {
+      type: String,
+      required: true
+    },
+    url: {
+      type: String,
+      required: true
+    },
+    date: {
+      type: Date,
+      default: Date.now
+    }
+  }],
+  notifications: {
+    type: Boolean,
+    default: true
+  }
 }, {
   timestamps: {
     createdAt: 'created_at',
