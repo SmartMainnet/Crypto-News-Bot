@@ -1,4 +1,3 @@
-export * from './start.command.js'
-export * from './info.command.js'
-export * from './help.command.js'
-export * from './profile.command.js'
+export * from './start.js'
+export * from './help.js'
+export * from './profile.js'

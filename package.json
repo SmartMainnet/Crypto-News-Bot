@@ -7,7 +7,7 @@
     "build": "tsc",
     "start": "tsc && node build/index.js",
     "dev": "nodemon src/index.ts",
-    "monitors:news": "nodemon src/monitors/news.monitor.ts"
+    "monitors:news": "nodemon src/monitors/news.ts"
   },
   "author": "SmartMainnet",
   "license": "MIT",

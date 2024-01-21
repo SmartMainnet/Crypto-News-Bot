@@ -4,7 +4,7 @@ import { nanoid } from 'nanoid'
 import lodash from 'lodash'
 const { omit } = lodash
 
-import { LogsModel } from '../database/models/logs.model.js'
+import { LogsModel } from '../database/models/logs.js'
 
 let transports = [
   new winston.transports.Console({

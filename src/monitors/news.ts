@@ -7,7 +7,7 @@ import { connectMongoose } from '../database/connect/index.js'
 import { ContextType, ITag } from '../types/index.js'
 import { LastNewsModel, SubscriptionsModel } from '../database/models/index.js'
 import { getTagsByKeys, incrementTagNewsCount, newTags } from '../database/methods/index.js'
-import { postInlineKeyboard } from '../keyboards/inline_keyboard/post.inline_keyboard.js'
+import { postInlineKeyboard } from '../keyboards/inline_keyboard/post.js'
 
 const { BOT_TOKEN, CHAT_ID, API } = process.env
 

@@ -1,5 +1,5 @@
 import { changeNotifications } from '../../database/methods/settings.js'
-import { editSourcesInlineKeyboard } from '../../keyboards/inline_keyboard/editSources.inline_keyboard.js'
+import { editSourcesInlineKeyboard } from '../../keyboards/inline_keyboard/editSources.js'
 import { settingsInlineKeyboard, notificationsInlineKeyboard } from '../../keyboards/inline_keyboard/index.js'
 import { ContextType } from '../../types/index.js'
 

@@ -3,9 +3,8 @@ import { Bot } from 'grammy'
 
 import { connectMongoose } from './database/connect/index.js'
 import { i18nMiddleware, limitMiddleware } from './middlewares/plugins/index.js'
-// import { checkMember } from './middlewares/checks/index.js'
-import { helpCommand, infoCommand, profileCommand, startCommand } from './handlers/commands/index.js'
-// import { textMessage } from './handlers/messages/index.js'
+import { checkMember } from './middlewares/checks/index.js'
+import { helpCommand, profileCommand, startCommand } from './handlers/commands/index.js'
 import { blockCallback, paginationCallback, profileCallback, settingsCallback, subscribeCallback, subscriptionsCallback, unblockCallback, unsubscribeCallback } from './handlers/callbacks/index.js'
 import { ContextType } from './types/index.js'
 
@@ -28,11 +27,7 @@ bot.use(limitMiddleware)
 // commands
 bot.command('start', startCommand)
 bot.command('profile', profileCommand)
-// bot.command('info', infoCommand)
 bot.command('help', helpCommand)
-
-// messages
-// bot.hears(/.*/, textMessage)
 
 // profile callbacks
 bot.callbackQuery(['editSubscriptions', 'settings', 'backToProfile'], profileCallback)

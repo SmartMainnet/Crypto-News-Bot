@@ -1,1 +1,1 @@
-export * from './db.connect.js'
+export * from './connectMongoose.js'

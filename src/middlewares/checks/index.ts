@@ -1,1 +1,1 @@
-export * from './checkMember.middleware.js'
+export * from './checkMember.js'
