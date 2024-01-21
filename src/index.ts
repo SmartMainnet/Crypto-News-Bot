@@ -4,7 +4,7 @@ import { Bot } from 'grammy'
 import { connectMongoose } from './database/connect/index.js'
 import { i18nMiddleware, limitMiddleware } from './middlewares/plugins/index.js'
 // import { checkMember } from './middlewares/checks/index.js'
-import { helpCommand, infoCommand, mysubscriptionsCommand, startCommand } from './handlers/commands/index.js'
+import { helpCommand, infoCommand, profileCommand, startCommand } from './handlers/commands/index.js'
 // import { textMessage } from './handlers/messages/index.js'
 import { blockCallback, paginationCallback, profileCallback, settingsCallback, subscribeCallback, subscriptionsCallback, unblockCallback, unsubscribeCallback } from './handlers/callbacks/index.js'
 import { ContextType } from './types/index.js'
@@ -17,8 +17,8 @@ const bot = new Bot<ContextType>(BOT_TOKEN!)
 
 // set commands
 await bot.api.setMyCommands([
-  { command: 'mysubscriptions', description: 'Show my subscriptions' },
-  { command: 'help', description: 'Show help text' },
+  { command: 'profile', description: 'Открыть профиль' },
+  { command: 'help', description: 'Помощь' },
 ])
 
 // plugins
@@ -27,7 +27,7 @@ bot.use(limitMiddleware)
 
 // commands
 bot.command('start', startCommand)
-bot.command('mysubscriptions', mysubscriptionsCommand)
+bot.command('profile', profileCommand)
 // bot.command('info', infoCommand)
 bot.command('help', helpCommand)
 

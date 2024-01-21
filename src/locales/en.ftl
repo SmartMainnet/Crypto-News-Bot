@@ -5,7 +5,7 @@ start =
   на интересные вам категории новостей
   сферы криптовалют и web3
 
-  /mysubscriptions - Мои подписки
+  /profile - Открыть профиль
 info =
   ✅ We use security audit platform (https://gopluslabs.io)
   ✅ We support chains such as:
@@ -15,7 +15,7 @@ help =
   на интересные вам категории новостей
   сферы криптовалют и web3
 
-  /mysubscriptions - Мои подписки
+  /profile - Открыть профиль
 settings =
   ⚙️ Настройки:
 
@@ -47,7 +47,7 @@ successfully_unsubscribed =
   ❎ Вы отписались от "{ $data }"
 already_unsubscribed =
   ❌ Вы не подписаны на "{ $data }"
-mysubscriptions =
+profile =
   ➡️ *Мои подписки*
   { $subscriptions }
 only_members =

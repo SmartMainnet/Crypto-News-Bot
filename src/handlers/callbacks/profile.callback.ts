@@ -23,7 +23,7 @@ export const profileCallback = async (ctx: ContextType) => {
       const subscriptionsString = subscriptions.map(e => `✅ ${e}`).join('\n')
       
       await ctx.editMessageText(
-        ctx.t('mysubscriptions', { subscriptions: subscriptionsString }),
+        ctx.t('profile', { subscriptions: subscriptionsString }),
         {
           parse_mode: 'Markdown',
           reply_markup: profileInlineKeyboard()
