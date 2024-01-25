@@ -25,7 +25,9 @@ export const newTags = async (tags: ITag[]) => {
     const newTags = tags.filter((tag: ITag) => !existingKeys.includes(tag.key))
 
     if (newTags.length > 0) {
-      await TagsModel.insertMany(newTags)
+      for (const tag of newTags) {
+        await TagsModel.findOneAndUpdate(tag)
+      }
     }
   } catch (e) {
     console.log(e)
