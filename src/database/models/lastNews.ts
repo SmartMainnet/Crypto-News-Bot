@@ -27,8 +27,10 @@ const LastNews = new Schema({
       news_count: RequiredNumber
     }],
     source: {
-      name: RequiredString,
-      lang: RequiredString,
+      type: {
+        name: RequiredString,
+        lang: RequiredString
+      },
       required: true
     },
     isAdvertisement: RequiredBoolean
