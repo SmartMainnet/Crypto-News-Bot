@@ -96,7 +96,7 @@ export const changeNotifications = async (user_id: number) => {
     [{
       $set: {
         notifications: {
-          $not: "$notifications"
+          $not: '$notifications'
         }
       }
     }]

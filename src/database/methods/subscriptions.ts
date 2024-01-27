@@ -1,4 +1,5 @@
 import { SubscriptionsModel } from '../models/index.js'
+import { INews, ITag } from '../../types/index.js'
 
 export const newSubscribe = async (user_id: number, key: string) => {
   try {
@@ -80,6 +81,18 @@ export const getSubscriptions = async (user_id: number) => {
   }
 
   return subscriptions.tags.map(tag => tag.key)
+}
+
+export const getUsersBySubscriptions = async (news: INews) => {
+  return await SubscriptionsModel.find({
+    'tags': {
+      $elemMatch: {
+        'key': {
+          $in: news.tags.map((tag: ITag) => tag.key).filter((key: string) => !key.includes('-')).join(' ')
+        }
+      }
+    }
+  })
 }
 
 export const unsubscribeAll = async (user_id: number) => {

@@ -4,10 +4,10 @@ import { Bot } from 'grammy'
 
 import { log } from '../utils/index.js'
 import { connectMongoose } from '../database/connect/index.js'
-import { ContextType, ITag } from '../types/index.js'
-import { LastNewsModel, SubscriptionsModel } from '../database/models/index.js'
-import { getTagsByKeys, incrementTagNewsCount, newTags } from '../database/methods/index.js'
+import { ContextType, INews, ITag } from '../types/index.js'
+import { getTagsByKeys, getUsersBySubscriptions, incrementTagNewsCount, newTags } from '../database/methods/index.js'
 import { postInlineKeyboard } from '../keyboards/inline_keyboard/post.js'
+import { getLastNews, newLastNews } from '../database/methods/news.js'
 
 const { BOT_TOKEN, CHAT_ID, API } = process.env
 
@@ -17,19 +17,19 @@ const cryptoNews = axios.create({
   baseURL: API,
 })
 
-let lastNews: any = {}
+let lastNews: INews
 
 const shorten = (str: string, maxLen: number, separator = ' ') => {
   if (str.length <= maxLen) return str
   return str.substr(0, str.lastIndexOf(separator, maxLen))
 }
 
-const createPost = (news: any, tags: any, description: string) => {
+const createPost = (news: INews, hashtags: string, description: string) => {
   return (
     `*${news.title}*\n\n` +
     `${description}\n` +
     `[Источник](${news.url})\n\n` +
-    `${tags}`
+    `${hashtags}`
   )
 }
 
@@ -43,28 +43,18 @@ const checkNews = async () => {
       },
     })
 
-    const news = res.data.data[0]
+    const news: INews = res.data.data[0]
     const hashtags = news.tags.map((tag: ITag) => `#${tag.key.replace('-', '')}`).join(' ')
 
-    if (news.title !== lastNews.last_news.title) {
+    if (news.title !== lastNews.title) {
       log.info('New news')
-      await LastNewsModel.findByIdAndUpdate('65a2d14f3cf0415406c6ce61', {
-        last_news: news
-      })
-      lastNews = await LastNewsModel.findById('65a2d14f3cf0415406c6ce61')
+      await newLastNews(news)
+      lastNews = news
 
       const description = shorten(news.description, 1024 - createPost(news, hashtags, '').length, '\n').replace(/\n+/g, '\n\n')
       const content = createPost(news, hashtags, description)
 
-      const users = await SubscriptionsModel.find({
-        'tags': {
-          $elemMatch: {
-            'key': {
-              $in: news.tags.map((tag: ITag) => tag.key).filter((key: string) => !key.includes('-')).join(' ')
-            }
-          }
-        }
-      })
+      const users = await getUsersBySubscriptions(news)
 
       await newTags(news.tags)
       await incrementTagNewsCount(news.tags.map((tag: ITag) => tag.key))
@@ -98,7 +88,7 @@ const run = async () => {
 void (async () => {
   await connectMongoose()
 
-  lastNews = await LastNewsModel.findById('65a2d14f3cf0415406c6ce61')
+  lastNews = await getLastNews()
 
   setInterval(run, 5000)
 })()

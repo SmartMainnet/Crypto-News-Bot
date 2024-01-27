@@ -5,7 +5,7 @@ import { getSubscriptions, getTags } from '../../database/methods/index.js'
 import { ITag } from '../../types/index.js'
 
 export const editSubscriptionsInlineKeyboard = async (user_id: number, page = 0) => {
-  const tags: any = await getTags(page)
+  const tags = await getTags(page)
   const subscriptions = await getSubscriptions(user_id)
   const buttonRow = tags.tags.map((tag: ITag) => subscriptions.includes(tag.key)
     ? InlineKeyboard.text(`✅ ${tag.name}`, `unsubscribe ${tag.key}`)

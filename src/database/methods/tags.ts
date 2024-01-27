@@ -75,29 +75,25 @@ export const getTagsByKeys = async (keys: string[]) => {
 export const getTagByKey = async (key: string) => {
   const tag = await TagsModel.findOne({ key })
 
-  if (!tag) {
-    return null
-  }
-
-  return {
-    id: tag.id,
-    key: tag.key,
-    name: tag.name,
-    news_count: tag.news_count
+  if (tag) {
+    return {
+      id: tag.id,
+      key: tag.key,
+      name: tag.name,
+      news_count: tag.news_count
+    }
   }
 }
 
 export const getTagByID = async (id: number) => {
   const tag = await TagsModel.findOne({ id })
 
-  if (!tag) {
-    return null
-  }
-
-  return {
-    id: tag.id,
-    key: tag.key,
-    name: tag.name,
-    news_count: tag.news_count
+  if (tag) {
+    return {
+      id: tag.id,
+      key: tag.key,
+      name: tag.name,
+      news_count: tag.news_count
+    }
   }
 }
