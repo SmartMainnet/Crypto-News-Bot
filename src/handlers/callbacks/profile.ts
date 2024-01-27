@@ -20,7 +20,7 @@ export const profileCallback = async (ctx: ContextType) => {
 
     if (data === 'backToProfile') {
       const subscriptions = await getSubscriptions(user.id)
-      const subscriptionsString = subscriptions.map(e => `✅ ${e}`).join('\n')
+      const subscriptionsString = subscriptions.map(tag => `✅ ${tag}`).join('\n')
       
       await ctx.editMessageText(
         ctx.t('profile', { subscriptions: subscriptionsString }),

@@ -7,7 +7,7 @@ export const profileCommand = async (ctx: ContextType) => {
     const user = ctx.update.message!.from!
 
     const subscriptions = await getSubscriptions(user.id)
-    const subscriptionsString = subscriptions.map(e => `✅ ${e}`).join('\n')
+    const subscriptionsString = subscriptions.map(tag => `✅ ${tag}`).join('\n')
 
     await ctx.reply(
       ctx.t('profile', { subscriptions: subscriptionsString }),

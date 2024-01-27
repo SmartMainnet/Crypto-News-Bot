@@ -43,4 +43,4 @@ bot.callbackQuery(/block .+/, blockCallback)
 bot.callbackQuery(/unlock .+/, unblockCallback)
 bot.callbackQuery(['editSources', 'editNotifications', 'changeNotifications', 'backToSettings'], settingsCallback)
 
-bot.start()
+await bot.start()
