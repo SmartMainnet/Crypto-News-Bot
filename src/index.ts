@@ -33,14 +33,14 @@ bot.command('help', helpCommand)
 bot.callbackQuery(['editSubscriptions', 'settings', 'backToProfile'], profileCallback)
 
 // subscriptions callbacks
-bot.callbackQuery(/subscribe .+/, subscribeCallback)
-bot.callbackQuery(/unsubscribe .+/, unsubscribeCallback)
-bot.callbackQuery(/subscriptionsPage [0-9]+/, paginationCallback)
+bot.callbackQuery(/^subscribe .+/, subscribeCallback)
+bot.callbackQuery(/^unsubscribe .+/, unsubscribeCallback)
+bot.callbackQuery(/^subscriptionsPage [0-9]+/, paginationCallback)
 bot.callbackQuery(['unsubscribeAll', 'disabledButton'], subscriptionsCallback)
 
 // settings callbacks
-bot.callbackQuery(/block .+/, blockCallback)
-bot.callbackQuery(/unlock .+/, unblockCallback)
+bot.callbackQuery(/^block .+/, blockCallback)
+bot.callbackQuery(/^unblock .+/, unblockCallback)
 bot.callbackQuery(['editSources', 'editNotifications', 'changeNotifications', 'backToSettings'], settingsCallback)
 
 await bot.start()

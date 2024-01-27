@@ -7,9 +7,9 @@ export const blockCallback = async (ctx: ContextType) => {
     const callback = ctx.update.callback_query!
 
     const user = callback.from!
-    const url = callback.data!.split(' ')[1]
+    const name = callback.data!.replace('block ', '')
 
-    await blockSource(user.id, url)
+    await blockSource(user.id, name)
     await ctx.editMessageReplyMarkup({ reply_markup: await editSourcesInlineKeyboard(user.id) })
   } catch (e) {
     console.log(e)

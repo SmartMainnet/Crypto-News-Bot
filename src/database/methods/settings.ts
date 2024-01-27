@@ -1,6 +1,6 @@
 import { SubscriptionsModel } from '../models/index.js'
 
-export const blockSource = async (user_id: number, url: string) => {
+export const blockSource = async (user_id: number, name: string) => {
   try {
     let subscriptions = await SubscriptionsModel.findOne({ user_id })
 
@@ -11,7 +11,7 @@ export const blockSource = async (user_id: number, url: string) => {
       })
     }
   
-    const checkBlocked = subscriptions.blocked_sources.some(e => e.url === url)
+    const checkBlocked = subscriptions.blocked_sources.some(e => e.name === name)
   
     if (checkBlocked) {
       return 'already blocked'
@@ -21,7 +21,7 @@ export const blockSource = async (user_id: number, url: string) => {
         {
           $push: {
             blocked_sources: {
-              url
+              name
             }
           }
         }
@@ -34,7 +34,7 @@ export const blockSource = async (user_id: number, url: string) => {
   }
 }
 
-export const unblockSource = async (user_id: number, url: string) => {
+export const unblockSource = async (user_id: number, name: string) => {
   try {
     let subscriptions = await SubscriptionsModel.findOne({ user_id })
 
@@ -45,7 +45,7 @@ export const unblockSource = async (user_id: number, url: string) => {
       })
     }
   
-    const checkBlocked = subscriptions.blocked_sources.some(e => e.url === url)
+    const checkBlocked = subscriptions.blocked_sources.some(e => e.name === name)
   
     if (!checkBlocked) {
       return 'already unblocked'
@@ -55,7 +55,7 @@ export const unblockSource = async (user_id: number, url: string) => {
         {
           $pull: {
             blocked_sources: {
-              url
+              name
             }
           }
         }
@@ -76,7 +76,7 @@ export const getBlockedSources = async (user_id: number) => {
   }
 
   if (subscriptions.blocked_sources.length > 0) {
-    return subscriptions.blocked_sources.map(source => source.url)
+    return subscriptions.blocked_sources.map(source => source.name)
   }
 }
 

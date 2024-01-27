@@ -70,7 +70,11 @@ const checkNews = async () => {
 
       if (users.length) {
         for (const user of users) {
-          await bot.api.sendPhoto(user.user_id, news.imageUrl, { parse_mode: 'Markdown', caption: content })
+          const checkSources = user.blocked_sources.map(source => source.name).includes(news.source.name)
+
+          if (!checkSources) {
+            await bot.api.sendPhoto(user.user_id, news.imageUrl, { parse_mode: 'Markdown', caption: content })
+          }
         }
       }
       log.info(`News sent to ${users.length} users`)
