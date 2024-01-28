@@ -44,6 +44,7 @@ const checkNews = async () => {
     })
 
     const news: INews = res.data.data[0]
+    const tagKeys = news.tags.map((tag: ITag) => tag.key)
     const hashtags = news.tags.map((tag: ITag) => `#${tag.key.replace('-', '')}`).join(' ')
 
     if (news.title !== lastNews.title) {
@@ -54,14 +55,15 @@ const checkNews = async () => {
       const description = shorten(news.description, 1024 - createPost(news, hashtags, '').length, '\n').replace(/\n+/g, '\n\n')
       const content = createPost(news, hashtags, description)
 
-      const users = await getUsersBySubscriptions(news)
+      const tags = await getTagsByKeys(tagKeys)
+      const users = await getUsersBySubscriptions(tagKeys)
 
       await newTags(news.tags)
       await incrementTagNewsCount(news.tags.map((tag: ITag) => tag.key))
 
-      const tags = await getTagsByKeys(news.tags.map((tag: ITag) => tag.key))
+      const imageUrl = news.imageUrl || news.fallbackImageUrl
 
-      await bot.api.sendPhoto(CHAT_ID!, news.imageUrl, {
+      await bot.api.sendPhoto(CHAT_ID!, imageUrl, {
         parse_mode: 'Markdown',
         caption: content,
         reply_markup: postInlineKeyboard(tags)
@@ -73,7 +75,11 @@ const checkNews = async () => {
           const checkSources = user.blocked_sources.map(source => source.name).includes(news.source.name)
 
           if (!checkSources) {
-            await bot.api.sendPhoto(user.user_id, news.imageUrl, { parse_mode: 'Markdown', caption: content })
+            await bot.api.sendPhoto(user.user_id, imageUrl, {
+              parse_mode: 'Markdown',
+              caption: content,
+              disable_notification: user.notifications
+            })
           }
         }
       }

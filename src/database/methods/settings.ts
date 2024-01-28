@@ -90,7 +90,7 @@ export const getNotifications = async (user_id: number) => {
   return subscriptions.notifications
 }
 
-export const changeNotifications = async (user_id: number) => {
+export const toggleNotifications = async (user_id: number) => {
   await SubscriptionsModel.findOneAndUpdate(
     { user_id },
     [{

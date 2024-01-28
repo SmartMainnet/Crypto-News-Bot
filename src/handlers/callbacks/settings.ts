@@ -1,4 +1,4 @@
-import { changeNotifications } from '../../database/methods/settings.js'
+import { toggleNotifications } from '../../database/methods/settings.js'
 import { editSourcesInlineKeyboard } from '../../keyboards/inline_keyboard/editSources.js'
 import { settingsInlineKeyboard, notificationsInlineKeyboard } from '../../keyboards/inline_keyboard/index.js'
 import { ContextType } from '../../types/index.js'
@@ -19,8 +19,8 @@ export const settingsCallback = async (ctx: ContextType) => {
       await ctx.editMessageText(ctx.t('notifications'), { reply_markup: await notificationsInlineKeyboard(user.id) })
     }
 
-    if (data === 'changeNotifications') {
-      await changeNotifications(user.id)
+    if (data === 'toggleNotifications') {
+      await toggleNotifications(user.id)
       await ctx.editMessageReplyMarkup({ reply_markup: await notificationsInlineKeyboard(user.id) })
     }
 

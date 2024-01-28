@@ -41,6 +41,6 @@ bot.callbackQuery(['unsubscribeAll', 'disabledButton'], subscriptionsCallback)
 // settings callbacks
 bot.callbackQuery(/^block .+/, blockCallback)
 bot.callbackQuery(/^unblock .+/, unblockCallback)
-bot.callbackQuery(['editSources', 'editNotifications', 'changeNotifications', 'backToSettings'], settingsCallback)
+bot.callbackQuery(['editSources', 'editNotifications', 'toggleNotifications', 'backToSettings'], settingsCallback)
 
 await bot.start()

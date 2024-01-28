@@ -7,7 +7,6 @@ export const unsubscribeCallback = async (ctx: ContextType) => {
     const callback = ctx.update.callback_query!
 
     const data = callback.data!.split(' ')[1]
-    console.log('data: ', data)
     const user = callback.from!
 
     await newUnsubscribe(user.id, data)

@@ -83,12 +83,12 @@ export const getSubscriptions = async (user_id: number) => {
   return subscriptions.tags.map(tag => tag.key)
 }
 
-export const getUsersBySubscriptions = async (news: INews) => {
+export const getUsersBySubscriptions = async (keys: string[]) => {
   return await SubscriptionsModel.find({
     'tags': {
       $elemMatch: {
         'key': {
-          $in: news.tags.map((tag: ITag) => tag.key).filter((key: string) => !key.includes('-')).join(' ')
+          $in: keys
         }
       }
     }
