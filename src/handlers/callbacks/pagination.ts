@@ -8,7 +8,9 @@ export const paginationCallback = async (ctx: ContextType) => {
     const user = callback.from!
     const page = callback.data!.split(' ')[1]
 
-    await ctx.editMessageReplyMarkup({ reply_markup: await editSubscriptionsInlineKeyboard(user.id, Number(page)) })
+    await ctx.editMessageReplyMarkup({
+      reply_markup: await editSubscriptionsInlineKeyboard(user.id, Number(page)),
+    })
   } catch (e) {
     console.log(e)
   }

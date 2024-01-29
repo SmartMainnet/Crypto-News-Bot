@@ -5,7 +5,12 @@ import { Bot } from 'grammy'
 import { log } from '../utils/index.js'
 import { connectMongoose } from '../database/connect/index.js'
 import { ContextType, INews, ITag } from '../types/index.js'
-import { getTagsByKeys, getUsersBySubscriptions, incrementTagNewsCount, newTags } from '../database/methods/index.js'
+import {
+  getTagsByKeys,
+  getUsersBySubscriptions,
+  incrementTagNewsCount,
+  newTags,
+} from '../database/methods/index.js'
 import { postInlineKeyboard } from '../keyboards/inline_keyboard/post.js'
 import { getLastNews, newLastNews } from '../database/methods/news.js'
 
@@ -25,12 +30,7 @@ const shorten = (str: string, maxLen: number, separator = ' ') => {
 }
 
 const createPost = (news: INews, hashtags: string, description: string) => {
-  return (
-    `*${news.title}*\n\n` +
-    `${description}\n` +
-    `[Источник](${news.url})\n\n` +
-    `${hashtags}`
-  )
+  return `*${news.title}*\n\n${description}\n[Источник](${news.url})\n\n${hashtags}`
 }
 
 const checkNews = async () => {
@@ -45,14 +45,20 @@ const checkNews = async () => {
 
     const news: INews = res.data.data[0]
     const tagKeys = news.tags.map((tag: ITag) => tag.key)
-    const hashtags = news.tags.map((tag: ITag) => `#${tag.key.replace('-', '')}`).join(' ')
+    const hashtags = news.tags
+      .map((tag: ITag) => `#${tag.key.replace('-', '')}`)
+      .join(' ')
 
     if (news.title !== lastNews.title) {
       log.info('New news')
       await newLastNews(news)
       lastNews = news
 
-      const description = shorten(news.description, 1024 - createPost(news, hashtags, '').length, '\n').replace(/\n+/g, '\n\n')
+      const description = shorten(
+        news.description,
+        1024 - createPost(news, hashtags, '').length,
+        '\n'
+      ).replace(/\n+/g, '\n\n')
       const content = createPost(news, hashtags, description)
 
       const tags = await getTagsByKeys(tagKeys)
@@ -66,19 +72,21 @@ const checkNews = async () => {
       await bot.api.sendPhoto(CHAT_ID!, imageUrl, {
         parse_mode: 'Markdown',
         caption: content,
-        reply_markup: postInlineKeyboard(tags)
+        reply_markup: postInlineKeyboard(tags),
       })
       log.info('News sent to the channel')
 
       if (users.length) {
         for (const user of users) {
-          const checkSources = user.blocked_sources.map(source => source.name).includes(news.source.name)
+          const checkSources = user.blocked_sources
+            .map(source => source.name)
+            .includes(news.source.name)
 
           if (!checkSources) {
             await bot.api.sendPhoto(user.user_id, imageUrl, {
               parse_mode: 'Markdown',
               caption: content,
-              disable_notification: user.notifications
+              disable_notification: user.notifications,
             })
           }
         }

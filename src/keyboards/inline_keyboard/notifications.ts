@@ -9,8 +9,5 @@ export const notificationsInlineKeyboard = async (user_id: number) => {
       'toggleNotifications'
     )
     .row()
-    .text(
-      '« Назад',
-      'backToSettings'
-    )
+    .text('« Назад', 'backToSettings')
 }

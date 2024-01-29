@@ -1,6 +1,9 @@
 import { toggleNotifications } from '../../database/methods/settings.js'
 import { editSourcesInlineKeyboard } from '../../keyboards/inline_keyboard/editSources.js'
-import { settingsInlineKeyboard, notificationsInlineKeyboard } from '../../keyboards/inline_keyboard/index.js'
+import {
+  settingsInlineKeyboard,
+  notificationsInlineKeyboard,
+} from '../../keyboards/inline_keyboard/index.js'
 import { ContextType } from '../../types/index.js'
 
 export const settingsCallback = async (ctx: ContextType) => {
@@ -16,16 +19,22 @@ export const settingsCallback = async (ctx: ContextType) => {
     }
 
     if (data === 'editNotifications') {
-      await ctx.editMessageText(ctx.t('notifications'), { reply_markup: await notificationsInlineKeyboard(user.id) })
+      await ctx.editMessageText(ctx.t('notifications'), {
+        reply_markup: await notificationsInlineKeyboard(user.id),
+      })
     }
 
     if (data === 'toggleNotifications') {
       await toggleNotifications(user.id)
-      await ctx.editMessageReplyMarkup({ reply_markup: await notificationsInlineKeyboard(user.id) })
+      await ctx.editMessageReplyMarkup({
+        reply_markup: await notificationsInlineKeyboard(user.id),
+      })
     }
 
     if (data === 'backToSettings') {
-      await ctx.editMessageText(ctx.t('settings'), { reply_markup: settingsInlineKeyboard() })
+      await ctx.editMessageText(ctx.t('settings'), {
+        reply_markup: settingsInlineKeyboard(),
+      })
     }
   } catch (e) {
     console.log(e)

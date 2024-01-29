@@ -10,7 +10,9 @@ export const unsubscribeCallback = async (ctx: ContextType) => {
     const user = callback.from!
 
     await newUnsubscribe(user.id, data)
-    await ctx.editMessageReplyMarkup({ reply_markup: await editSubscriptionsInlineKeyboard(user.id) })
+    await ctx.editMessageReplyMarkup({
+      reply_markup: await editSubscriptionsInlineKeyboard(user.id),
+    })
   } catch (e) {
     console.log(e)
   }

@@ -1,5 +1,4 @@
 import { SubscriptionsModel } from '../models/index.js'
-import { INews, ITag } from '../../types/index.js'
 
 export const newSubscribe = async (user_id: number, key: string) => {
   try {
@@ -8,12 +7,12 @@ export const newSubscribe = async (user_id: number, key: string) => {
     if (!subscriptions) {
       subscriptions = await SubscriptionsModel.create({
         user_id,
-        tags: []
+        tags: [],
       })
     }
-  
+
     const checkTag = subscriptions.tags.some(e => e.key === key)
-  
+
     if (checkTag) {
       return 'already subscribed'
     } else {
@@ -22,9 +21,9 @@ export const newSubscribe = async (user_id: number, key: string) => {
         {
           $push: {
             tags: {
-              key
-            }
-          }
+              key,
+            },
+          },
         }
       )
 
@@ -42,12 +41,12 @@ export const newUnsubscribe = async (user_id: number, key: string) => {
     if (!subscriptions) {
       subscriptions = await SubscriptionsModel.create({
         user_id,
-        tags: []
+        tags: [],
       })
     }
-  
+
     const checkTag = subscriptions.tags.some(e => e.key === key)
-  
+
     if (!checkTag) {
       return 'already unsubscribed'
     } else {
@@ -56,9 +55,9 @@ export const newUnsubscribe = async (user_id: number, key: string) => {
         {
           $pull: {
             tags: {
-              key
-            }
-          }
+              key,
+            },
+          },
         }
       )
 
@@ -85,13 +84,13 @@ export const getSubscriptions = async (user_id: number) => {
 
 export const getUsersBySubscriptions = async (keys: string[]) => {
   return await SubscriptionsModel.find({
-    'tags': {
+    tags: {
       $elemMatch: {
-        'key': {
-          $in: keys
-        }
-      }
-    }
+        key: {
+          $in: keys,
+        },
+      },
+    },
   })
 }
 
@@ -101,8 +100,8 @@ export const unsubscribeAll = async (user_id: number) => {
       { user_id },
       {
         $set: {
-          tags: []
-        }
+          tags: [],
+        },
       }
     )
   } catch (e) {

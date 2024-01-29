@@ -10,8 +10,11 @@ let transports = [
   new winston.transports.Console({
     format: winston.format.combine(
       winston.format.colorize(),
-      winston.format.printf((info) => {
-        const message = typeof info.message === 'string' ? info.message : JSON.stringify(info.message)
+      winston.format.printf(info => {
+        const message =
+          typeof info.message === 'string'
+            ? info.message
+            : JSON.stringify(info.message)
         let s = `${info.timestamp}`
         s += ` ${chalk.bold(info.level)}`
         if (info.reqId) {
@@ -32,25 +35,35 @@ let transports = [
           s += ` - ${info.duration} ms`
         }
         const extra = omit(info, [
-          'message', 'level', 'timestamp', // built-in
+          'message',
+          'level',
+          'timestamp', // built-in
           'service', // global
-          'traceId', 'reqId', 'scene', 'userId', 'user', 'stack', 'duration', // locally handled
+          'traceId',
+          'reqId',
+          'scene',
+          'userId',
+          'user',
+          'stack',
+          'duration', // locally handled
         ])
         if (Object.keys(extra).length > 0) {
           s += ' ['
-          s += Object.entries(extra).map(([k, v]) => {
-            let formattedV
-            try {
-              formattedV = JSON.stringify(v, null, 2)
-            } catch (error) {
-              formattedV = v.toString()
-            }
-            return `${k}: ${formattedV}`
-          }).join(', ')
+          s += Object.entries(extra)
+            .map(([k, v]) => {
+              let formattedV
+              try {
+                formattedV = JSON.stringify(v, null, 2)
+              } catch (error) {
+                formattedV = v.toString()
+              }
+              return `${k}: ${formattedV}`
+            })
+            .join(', ')
           s += ']'
         }
         return s
-      }),
+      })
     ),
   }),
 ]
@@ -61,21 +74,18 @@ const logger: any = winston.createLogger({
   transports,
   format: winston.format.combine(
     winston.format.timestamp(),
-    winston.format.errors({ stack: true }),
+    winston.format.errors({ stack: true })
   ),
 })
 
-const eventsFormatter = winston.format((info) => {
+const eventsFormatter = winston.format(info => {
   info.ev = true
   return info
 })
 
 logger.events = winston.createLogger({
   transports: eventsTransports,
-  format: winston.format.combine(
-    winston.format.timestamp(),
-    eventsFormatter(),
-  ),
+  format: winston.format.combine(winston.format.timestamp(), eventsFormatter()),
 })
 
 logger.telegram = {}
@@ -88,23 +98,28 @@ const notifyChannels = process.env.TELEGRAM_LOGS
     }, {})
   : {}
 
-logger.telegram = new Proxy({}, {
-  get: (target, prop) => {
-    const name = prop
-    if (process.env.TELEGRAM_LOGS === '0') return () => {}
-    if (!notifyChannels[name]) {
-      logger.warn('unknown telegram log target', { name })
-      return async () => {}
-    }
-    return async (text: string) => {
-      const logID = nanoid()
-      await LogsModel.create({
-        log_id: logID,
-        to: name,
-        data: { text },
-      }).catch((error: any) => logger.error(`failed to send log to ${String(name)}`, error))
-    }
+logger.telegram = new Proxy(
+  {},
+  {
+    get: (target, prop) => {
+      const name = prop
+      if (process.env.TELEGRAM_LOGS === '0') return () => {}
+      if (!notifyChannels[name]) {
+        logger.warn('unknown telegram log target', { name })
+        return async () => {}
+      }
+      return async (text: string) => {
+        const logID = nanoid()
+        await LogsModel.create({
+          log_id: logID,
+          to: name,
+          data: { text },
+        }).catch((error: any) =>
+          logger.error(`failed to send log to ${String(name)}`, error)
+        )
+      }
+    },
   }
-})
+)
 
 export const log = logger

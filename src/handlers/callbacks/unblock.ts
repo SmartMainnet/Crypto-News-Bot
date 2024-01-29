@@ -10,7 +10,9 @@ export const unblockCallback = async (ctx: ContextType) => {
     const name = callback.data!.replace('unblock ', '')
 
     await unblockSource(user.id, name)
-    await ctx.editMessageReplyMarkup({ reply_markup: await editSourcesInlineKeyboard(user.id) })
+    await ctx.editMessageReplyMarkup({
+      reply_markup: await editSourcesInlineKeyboard(user.id),
+    })
   } catch (e) {
     console.log(e)
   }

@@ -7,12 +7,12 @@ export const blockSource = async (user_id: number, name: string) => {
     if (!subscriptions) {
       subscriptions = await SubscriptionsModel.create({
         user_id,
-        blocked_sources: []
+        blocked_sources: [],
       })
     }
-  
+
     const checkBlocked = subscriptions.blocked_sources.some(e => e.name === name)
-  
+
     if (checkBlocked) {
       return 'already blocked'
     } else {
@@ -21,9 +21,9 @@ export const blockSource = async (user_id: number, name: string) => {
         {
           $push: {
             blocked_sources: {
-              name
-            }
-          }
+              name,
+            },
+          },
         }
       )
 
@@ -41,12 +41,12 @@ export const unblockSource = async (user_id: number, name: string) => {
     if (!subscriptions) {
       subscriptions = await SubscriptionsModel.create({
         user_id,
-        blocked_sources: []
+        blocked_sources: [],
       })
     }
-  
+
     const checkBlocked = subscriptions.blocked_sources.some(e => e.name === name)
-  
+
     if (!checkBlocked) {
       return 'already unblocked'
     } else {
@@ -55,9 +55,9 @@ export const unblockSource = async (user_id: number, name: string) => {
         {
           $pull: {
             blocked_sources: {
-              name
-            }
-          }
+              name,
+            },
+          },
         }
       )
 
@@ -91,14 +91,13 @@ export const getNotifications = async (user_id: number) => {
 }
 
 export const toggleNotifications = async (user_id: number) => {
-  await SubscriptionsModel.findOneAndUpdate(
-    { user_id },
-    [{
+  await SubscriptionsModel.findOneAndUpdate({ user_id }, [
+    {
       $set: {
         notifications: {
-          $not: '$notifications'
-        }
-      }
-    }]
-  )
+          $not: '$notifications',
+        },
+      },
+    },
+  ])
 }

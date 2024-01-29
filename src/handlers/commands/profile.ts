@@ -9,13 +9,10 @@ export const profileCommand = async (ctx: ContextType) => {
     const subscriptions = await getSubscriptions(user.id)
     const subscriptionsString = subscriptions.map(tag => `✅ ${tag}`).join('\n')
 
-    await ctx.reply(
-      ctx.t('profile', { subscriptions: subscriptionsString }),
-      {
-        parse_mode: 'Markdown',
-        reply_markup: profileInlineKeyboard()
-      }
-    )
+    await ctx.reply(ctx.t('profile', { subscriptions: subscriptionsString }), {
+      parse_mode: 'Markdown',
+      reply_markup: profileInlineKeyboard(),
+    })
   } catch (e) {
     console.log(e)
   }

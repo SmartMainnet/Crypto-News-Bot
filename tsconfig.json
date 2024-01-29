@@ -10,7 +10,7 @@
     "module": "NodeNext",
     "target": "ESNext",
     "outDir": "build",
-    "rootDir": "src",
+    "rootDir": "src"
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules"],

@@ -6,5 +6,5 @@ import { ContextType } from '../../types/index.js'
 export const limitMiddleware = limit<ContextType, RedisType>({
   timeFrame: 2000,
   limit: 5,
-  onLimitExceeded: (ctx: ContextType) => ctx.reply(ctx.t('limit'))
+  onLimitExceeded: (ctx: ContextType) => ctx.reply(ctx.t('limit')),
 })

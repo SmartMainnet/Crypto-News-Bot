@@ -7,8 +7,8 @@ export const getSources = async () => {
     method: 'GET',
     url: `${API}/news-sources`,
     params: {
-      lang: 'ru'
-    }
+      lang: 'ru',
+    },
   })
 
   return res.data.data

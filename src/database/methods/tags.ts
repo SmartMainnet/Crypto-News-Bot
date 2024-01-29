@@ -8,7 +8,7 @@ export const newTag = async (tag: ITag) => {
     if (!tags) {
       await TagsModel.create({
         key: tag.key,
-        name: tag.name
+        name: tag.name,
       })
     }
   } catch (e) {
@@ -38,13 +38,16 @@ export const incrementTagNewsCount = async (keys: string[]) => {
   await TagsModel.updateMany(
     { key: { $in: keys } },
     {
-      $inc: { news_count: 1 }
+      $inc: { news_count: 1 },
     }
   )
 }
 
 export const getTags = async (page = 0, limit = 20) => {
-  const tags = await TagsModel.find().sort({ news_count: -1 }).limit(limit).skip(page * limit)
+  const tags = await TagsModel.find()
+    .sort({ news_count: -1 })
+    .limit(limit)
+    .skip(page * limit)
   const total = await TagsModel.countDocuments()
 
   return {
@@ -56,8 +59,8 @@ export const getTags = async (page = 0, limit = 20) => {
       id: tag.id,
       key: tag.key,
       name: tag.name,
-      news_count: tag.news_count
-    }))
+      news_count: tag.news_count,
+    })),
   }
 }
 
@@ -68,7 +71,7 @@ export const getTagsByKeys = async (keys: string[]) => {
     id: tag.id,
     key: tag.key,
     name: tag.name,
-    news_count: tag.news_count
+    news_count: tag.news_count,
   }))
 }
 
@@ -80,7 +83,7 @@ export const getTagByKey = async (key: string) => {
       id: tag.id,
       key: tag.key,
       name: tag.name,
-      news_count: tag.news_count
+      news_count: tag.news_count,
     }
   }
 }
@@ -93,7 +96,7 @@ export const getTagByID = async (id: number) => {
       id: tag.id,
       key: tag.key,
       name: tag.name,
-      news_count: tag.news_count
+      news_count: tag.news_count,
     }
   }
 }

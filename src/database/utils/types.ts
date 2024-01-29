@@ -1,14 +1,14 @@
 export const RequiredNumber = {
   type: Number,
-  required: true
+  required: true,
 }
 
 export const RequiredString = {
   type: String,
-  required: true
+  required: true,
 }
 
 export const RequiredBoolean = {
   type: Boolean,
-  required: true
+  required: true,
 }

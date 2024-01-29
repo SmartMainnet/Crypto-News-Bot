@@ -12,7 +12,9 @@ export const subscriptionsCallback = async (ctx: ContextType) => {
     if (data === 'unsubscribeAll') {
       await unsubscribeAll(user.id)
 
-      await ctx.editMessageReplyMarkup({ reply_markup: await editSubscriptionsInlineKeyboard(user.id) })
+      await ctx.editMessageReplyMarkup({
+        reply_markup: await editSubscriptionsInlineKeyboard(user.id),
+      })
     }
 
     if (data === 'disabledButton') {
