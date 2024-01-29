@@ -10,6 +10,7 @@ export const postInlineKeyboard = (tags: ITag[]) => {
       `https://t.me/test_sm1_bot?start=${tag.id}`
     )
   )
+
   const DiscussButton = InlineKeyboard.url(
     '💬 Обсудить',
     'https://t.me/xCryptoMediaChat'
@@ -18,8 +19,11 @@ export const postInlineKeyboard = (tags: ITag[]) => {
     '🔥 Забустить канал',
     'https://t.me/xCryptoMedia?boost'
   )
+
+  const buttonRowChunks = getChunks(buttonRow, 2)
+
   return InlineKeyboard.from([
     [DiscussButton, BoostChannelButton],
-    ...getChunks(buttonRow, 2),
+    ...buttonRowChunks,
   ])
 }
