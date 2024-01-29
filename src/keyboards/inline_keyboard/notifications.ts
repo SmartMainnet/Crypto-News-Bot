@@ -1,4 +1,5 @@
 import { InlineKeyboard } from 'grammy'
+
 import { getNotifications } from '../../database/methods/index.js'
 
 export const notificationsInlineKeyboard = async (user_id: number) => {

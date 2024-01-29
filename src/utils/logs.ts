@@ -1,10 +1,9 @@
 import winston from 'winston'
 import chalk from 'chalk'
-import { nanoid } from 'nanoid'
 import lodash from 'lodash'
-const { omit } = lodash
+import { nanoid } from 'nanoid'
 
-import { LogsModel } from '../database/models/logs.js'
+import { LogsModel } from '../database/models/index.js'
 
 let transports = [
   new winston.transports.Console({
@@ -34,7 +33,7 @@ let transports = [
         if (info.duration !== undefined) {
           s += ` - ${info.duration} ms`
         }
-        const extra = omit(info, [
+        const extra = lodash.omit(info, [
           'message',
           'level',
           'timestamp', // built-in

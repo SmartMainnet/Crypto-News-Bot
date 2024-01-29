@@ -1,7 +1,7 @@
 import { InlineKeyboard } from 'grammy'
 
-import { ITag } from '../../types/index.js'
 import { getChunks } from '../../utils/index.js'
+import { ITag } from '../../types/index.js'
 
 export const postInlineKeyboard = (tags: ITag[]) => {
   const buttonRow = tags.map(tag =>

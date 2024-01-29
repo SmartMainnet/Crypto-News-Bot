@@ -3,7 +3,7 @@ import {
   editSubscriptionsInlineKeyboard,
   settingsInlineKeyboard,
 } from '../../keyboards/inline_keyboard/index.js'
-import { getSubscriptions } from '../../database/methods/subscriptions.js'
+import { getSubscriptions } from '../../database/methods/index.js'
 import { ContextType } from '../../types/index.js'
 
 export const profileCallback = async (ctx: ContextType) => {

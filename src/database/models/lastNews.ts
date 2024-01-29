@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
 
-import { RequiredBoolean, RequiredNumber, RequiredString } from '../utils/types.js'
+import { RequiredBoolean, RequiredNumber, RequiredString } from '../utils/index.js'
 
 const { Schema } = mongoose
 

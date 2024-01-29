@@ -1,5 +1,5 @@
-import { unsubscribeAll } from '../../database/methods/subscriptions.js'
 import { editSubscriptionsInlineKeyboard } from '../../keyboards/inline_keyboard/index.js'
+import { unsubscribeAll } from '../../database/methods/index.js'
 import { ContextType } from '../../types/index.js'
 
 export const subscriptionsCallback = async (ctx: ContextType) => {

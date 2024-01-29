@@ -3,16 +3,17 @@ import axios from 'axios'
 import { Bot } from 'grammy'
 
 import { log } from '../utils/index.js'
+import { postInlineKeyboard } from '../keyboards/inline_keyboard/index.js'
 import { connectMongoose } from '../database/connect/index.js'
-import { ContextType, INews, ITag } from '../types/index.js'
 import {
+  getLastNews,
   getTagsByKeys,
   getUsersBySubscriptions,
   incrementTagNewsCount,
+  newLastNews,
   newTags,
 } from '../database/methods/index.js'
-import { postInlineKeyboard } from '../keyboards/inline_keyboard/post.js'
-import { getLastNews, newLastNews } from '../database/methods/news.js'
+import { ContextType, INews, ITag } from '../types/index.js'
 
 const { BOT_TOKEN, CHAT_ID, API } = process.env
 

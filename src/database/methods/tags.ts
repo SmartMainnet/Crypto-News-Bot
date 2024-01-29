@@ -1,21 +1,6 @@
 import { TagsModel } from '../models/index.js'
 import { ITag } from '../../types/index.js'
 
-export const newTag = async (tag: ITag) => {
-  try {
-    const tags = await TagsModel.findOne({ key: tag.key })
-
-    if (!tags) {
-      await TagsModel.create({
-        key: tag.key,
-        name: tag.name,
-      })
-    }
-  } catch (e) {
-    console.log(e)
-  }
-}
-
 export const newTags = async (tags: ITag[]) => {
   try {
     const keys = tags.map((tag: ITag) => tag.key)
@@ -73,19 +58,6 @@ export const getTagsByKeys = async (keys: string[]) => {
     name: tag.name,
     news_count: tag.news_count,
   }))
-}
-
-export const getTagByKey = async (key: string) => {
-  const tag = await TagsModel.findOne({ key })
-
-  if (tag) {
-    return {
-      id: tag.id,
-      key: tag.key,
-      name: tag.name,
-      news_count: tag.news_count,
-    }
-  }
 }
 
 export const getTagByID = async (id: number) => {

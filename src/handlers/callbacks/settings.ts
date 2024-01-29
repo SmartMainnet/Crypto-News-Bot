@@ -1,9 +1,9 @@
-import { toggleNotifications } from '../../database/methods/settings.js'
-import { editSourcesInlineKeyboard } from '../../keyboards/inline_keyboard/editSources.js'
 import {
   settingsInlineKeyboard,
   notificationsInlineKeyboard,
+  editSourcesInlineKeyboard,
 } from '../../keyboards/inline_keyboard/index.js'
+import { toggleNotifications } from '../../database/methods/index.js'
 import { ContextType } from '../../types/index.js'
 
 export const settingsCallback = async (ctx: ContextType) => {
