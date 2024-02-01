@@ -26,11 +26,11 @@ export const editSubscriptionsInlineKeyboard = async (user_id: number, page = 0)
   ]
 
   const buttonRowChunks = getChunks(buttonRow, 2)
-  const checkSubscriptions = buttonRowChunks.every(buttons => buttons.length === 0)
 
-  const unsubscribeAllButton = checkSubscriptions
-    ? []
-    : [InlineKeyboard.text('Отписаться от всего', 'unsubscribeAll')]
+  const unsubscribeAllButton =
+    subscriptions.length === 0
+      ? []
+      : [InlineKeyboard.text('Отписаться от всего', 'unsubscribeAll')]
   const backButton = [InlineKeyboard.text('« Назад', 'backToProfile')]
 
   return InlineKeyboard.from([

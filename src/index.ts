@@ -1,6 +1,7 @@
 import 'dotenv/config'
 import { Bot } from 'grammy'
 
+import { log } from './utils/index.js'
 import { connectMongoose } from './database/connect/index.js'
 import { i18nMiddleware, limitMiddleware } from './middlewares/plugins/index.js'
 import { checkMember } from './middlewares/checks/index.js'
@@ -49,17 +50,22 @@ bot.callbackQuery(
 )
 
 // subscriptions callbacks
-bot.callbackQuery(/^subscribe .+/, subscribeCallback)
-bot.callbackQuery(/^unsubscribe .+/, unsubscribeCallback)
-bot.callbackQuery(/^subscriptionsPage [0-9]+/, paginationCallback)
+bot.callbackQuery(/^subscribe ./, subscribeCallback)
+bot.callbackQuery(/^unsubscribe ./, unsubscribeCallback)
+bot.callbackQuery(/^subscriptionsPage [0-9]/, paginationCallback)
 bot.callbackQuery(['unsubscribeAll', 'disabledButton'], subscriptionsCallback)
 
 // settings callbacks
-bot.callbackQuery(/^block .+/, blockCallback)
-bot.callbackQuery(/^unblock .+/, unblockCallback)
+bot.callbackQuery(/^block ./, blockCallback)
+bot.callbackQuery(/^unblock ./, unblockCallback)
 bot.callbackQuery(
   ['editSources', 'editNotifications', 'toggleNotifications', 'backToSettings'],
   settingsCallback
 )
 
-await bot.start()
+bot.start({
+  onStart(botInfo) {
+    log.info('Bot started', { botInfo })
+  },
+  allowed_updates: ['message', 'callback_query'],
+})

@@ -71,15 +71,19 @@ export const newUnsubscribe = async (user_id: number, key: string) => {
 export const getSubscriptions = async (user_id: number) => {
   const subscriptions = await SubscriptionsModel.findOne({ user_id })
 
-  if (!subscriptions) {
+  if (!subscriptions || subscriptions.tags.length === 0) {
     return []
   }
 
-  if (subscriptions.tags.length === 0) {
-    return ['Вы еще ни на что не подписаны!']
-  }
-
   return subscriptions.tags.map(tag => tag.key)
+}
+
+export const getSubscriptionsString = async (user_id: number) => {
+  const subscriptions = await getSubscriptions(user_id)
+
+  return subscriptions.length === 0
+    ? '\nВы еще ни на что не подписаны!'
+    : subscriptions.map(tag => `✅ ${tag}`).join('\n')
 }
 
 export const getUsersBySubscriptions = async (keys: string[]) => {
