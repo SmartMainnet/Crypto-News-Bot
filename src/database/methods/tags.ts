@@ -49,6 +49,13 @@ export const getTags = async (page = 0, limit = 20) => {
   }
 }
 
+export const getTagsPageByKey = async (key: string, limit = 20) => {
+  const tags = await TagsModel.find().sort({ news_count: -1 })
+  const tagPosition = tags.findIndex(tag => tag.key === key)
+
+  return Math.floor(tagPosition / limit)
+}
+
 export const getTagsByKeys = async (keys: string[]) => {
   const tags = await TagsModel.find({ key: { $in: keys } })
 
