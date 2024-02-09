@@ -7,18 +7,14 @@ const { Schema } = mongoose
 const Users = new Schema(
   {
     id: Number,
+
     user_id: {
       type: Number,
       required: true,
     },
-    username: {
-      type: String,
-      required: true,
-    },
-    first_name: {
-      type: String,
-      required: true,
-    },
+
+    username: String,
+    first_name: String,
     last_name: String,
   },
   {

@@ -2,7 +2,7 @@ import mongoose from 'mongoose'
 
 const { Schema } = mongoose
 
-const Counter = new Schema({
+const Counters = new Schema({
   _id: String,
   seq: {
     type: Number,
@@ -10,4 +10,4 @@ const Counter = new Schema({
   },
 })
 
-export const CounterModel = mongoose.model('Counter', Counter)
+export const CountersModel = mongoose.model('Counters', Counters)
